@@ -402,6 +402,12 @@ quiz_questions = [
     {'q': 'Was bedeutet es, wenn wir streiten?', 'options': ['Es ist vorbei', 'Wir sind müde', 'Wir wachsen durch Kintsugi stärker zusammen', 'Wir essen danach Eis'], 'answer': 2}
 ]
 
+
+# Rewrite Pepsi to Selly in timeline
+for event in timeline_events:
+    if 'desc' in event:
+        event['desc'] = event['desc'].replace('Pepsi:', 'Selly:').replace('Pepsi bringt', 'Selly bringt')
+
 app_data = {
     'meta': {
         'title': "Love2Love: Selly & Denis Sanctuary",
@@ -422,7 +428,7 @@ app_data = {
     },
     'safeHarbor': safe_harbor_data,
     'promises': promises,
-    'timeline': timeline_events,
+        'timeline': timeline_events,
     'quiz': quiz_questions
 }
 
