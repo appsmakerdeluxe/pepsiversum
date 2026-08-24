@@ -36,40 +36,25 @@ function playMeow() {
 
 function playPurr() {
   if(audioCtx.state === 'suspended') audioCtx.resume();
-  const bufferSize = audioCtx.sampleRate * 2; // 2 seconds
+  const bufferSize = audioCtx.sampleRate * 2;
   const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
   const data = buffer.getChannelData(0);
-  for (let i = 0; i < bufferSize; i++) {
-    data[i] = (Math.random() * 2 - 1) * 0.2; // noise
-  }
+  for (let i = 0; i < bufferSize; i++) { data[i] = (Math.random() * 2 - 1) * 0.2; }
   const noise = audioCtx.createBufferSource();
   noise.buffer = buffer;
   const biquad = audioCtx.createBiquadFilter();
-  biquad.type = 'lowpass';
-  biquad.frequency.value = 150;
+  biquad.type = 'lowpass'; biquad.frequency.value = 150;
   
   const gain = audioCtx.createGain();
   gain.gain.setValueAtTime(0, audioCtx.currentTime);
-  
-  // Create a pulsing effect for the purr using an oscillator modulating the gain
   const lfo = audioCtx.createOscillator();
-  lfo.type = 'sine';
-  lfo.frequency.value = 25; // 25 Hz rumble
-  
-  const lfoGain = audioCtx.createGain();
-  lfoGain.gain.value = 0.5;
-  lfo.connect(lfoGain);
-  lfoGain.connect(gain.gain);
-  
-  noise.connect(biquad);
-  biquad.connect(gain);
-  gain.connect(audioCtx.destination);
-  
+  lfo.type = 'sine'; lfo.frequency.value = 25;
+  const lfoGain = audioCtx.createGain(); lfoGain.gain.value = 0.5;
+  lfo.connect(lfoGain); lfoGain.connect(gain.gain);
+  noise.connect(biquad); biquad.connect(gain); gain.connect(audioCtx.destination);
   gain.gain.linearRampToValueAtTime(0.6, audioCtx.currentTime + 0.2);
   gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.8);
-  
-  noise.start(); lfo.start();
-  noise.stop(audioCtx.currentTime + 2); lfo.stop(audioCtx.currentTime + 2);
+  noise.start(); lfo.start(); noise.stop(audioCtx.currentTime + 2); lfo.stop(audioCtx.currentTime + 2);
 }
 
 function playPop() {
@@ -83,6 +68,68 @@ function playPop() {
   gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
   gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
   osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+}
+
+function playHeartbeat() {
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(60, audioCtx.currentTime);
+  gain.gain.setValueAtTime(0, audioCtx.currentTime);
+  gain.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.1);
+  gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.2);
+  osc.frequency.setValueAtTime(60, audioCtx.currentTime + 0.3);
+  gain.gain.setValueAtTime(0, audioCtx.currentTime + 0.3);
+  gain.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.4);
+  gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.6);
+  osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.7);
+}
+
+function playChime() {
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+  gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 2);
+  osc.start(); osc.stop(audioCtx.currentTime + 2);
+}
+
+function createRain() {
+  const rainContainer = document.createElement('div');
+  rainContainer.className = 'rain-container';
+  document.body.appendChild(rainContainer);
+  for(let i=0; i<50; i++) {
+    const drop = document.createElement('div');
+    drop.className = 'raindrop';
+    drop.style.left = Math.random() * 100 + 'vw';
+    drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
+    drop.style.animationDelay = (Math.random() * 1) + 's';
+    rainContainer.appendChild(drop);
+  }
+  setTimeout(() => rainContainer.remove(), 5000);
+}
+
+function createFloatingHearts() {
+  const hc = document.createElement('div');
+  hc.className = 'rain-container';
+  document.body.appendChild(hc);
+  for(let i=0; i<20; i++) {
+    const h = document.createElement('div');
+    h.innerHTML = '💖';
+    h.style.position = 'absolute';
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.bottom = '-20px';
+    h.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+    h.style.animation = `floatHeart ${Math.random() * 2 + 3}s ease-in forwards`;
+    h.style.animationDelay = (Math.random() * 0.5) + 's';
+    hc.appendChild(h);
+  }
+  setTimeout(() => hc.remove(), 5000);
 }
 
 function renderApp() {
@@ -125,13 +172,10 @@ function renderApp() {
   $('#kintsugi-container').innerHTML = kintsugi;
 
   // 4. Cats
-  // Add listeners to cat buttons
   $all('.cat-sound').forEach(btn => {
     btn.addEventListener('click', (e) => {
       if(e.target.dataset.type === 'meow') playMeow();
       else playPurr();
-      
-      // Floating heart effect
       const heart = document.createElement('div');
       heart.innerHTML = '❤️';
       heart.className = 'floating-heart';
@@ -161,7 +205,6 @@ function renderApp() {
         clearInterval(interval);
         btnRoulette.disabled = false;
         btnRoulette.textContent = 'Neues Date ziehen 🎲';
-        // Confetti
         createConfetti(btnRoulette.getBoundingClientRect());
       }
     }, 100);
@@ -179,20 +222,34 @@ function renderApp() {
   `).join('');
   $('#blueprint-container').innerHTML = rooms;
 
-  // 7. Safe Harbor SOS
+  // 7. Safe Harbor SOS (Highly Interactive)
   const sosContainer = $('#sos-buttons');
   const modal = $('#sos-modal');
-  appData.safeHarbor.forEach(s => {
+  appData.safeHarbor.forEach((s, index) => {
     const btn = document.createElement('button');
     btn.className = 'sos-btn reveal';
     btn.innerHTML = `<span class="icon">${s.icon}</span> <span class="title">${s.title}</span>`;
     btn.addEventListener('click', () => {
-      playPop();
+      // Dynamic effects based on which button was clicked
+      const colors = [
+        'linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,58,138,0.95))', // Blue/Rain
+        'linear-gradient(135deg, rgba(23,15,42,0.95), rgba(76,29,149,0.95))', // Purple/Breathe
+        'linear-gradient(135deg, rgba(42,15,23,0.95), rgba(190,18,60,0.95))', // Rose/Heart
+        'linear-gradient(135deg, rgba(42,26,15,0.95), rgba(154,52,18,0.95))'  // Orange/Anger
+      ];
+      
+      modal.style.background = colors[index % colors.length];
       $('#modal-title').textContent = s.title;
       $('#modal-advice').textContent = s.advice;
       $('#modal-quote').textContent = s.quote;
       $('#modal-action').textContent = s.actionText;
       $('#modal-bonus').textContent = "🎁 " + s.bonus;
+      
+      if (index === 0) { playChime(); createRain(); }
+      else if (index === 1) { playChime(); }
+      else if (index === 2) { playHeartbeat(); createFloatingHearts(); }
+      else { playPop(); }
+      
       modal.classList.add('active');
     });
     sosContainer.appendChild(btn);
@@ -203,6 +260,7 @@ function renderApp() {
   });
 
   // 8. Promises
+
   const promises = appData.promises.map(p => `
     <div class="promise-card reveal">
       <div class="seal">${p.seal}</div>
@@ -421,6 +479,12 @@ h2.title em { color: var(--rose); font-style: italic; }
 .modal-content p { font-size: 1.2rem; margin-bottom: 20px; }
 .modal-content blockquote { font-style: italic; color: var(--gold); margin-bottom: 20px; font-size: 1.1rem; }
 .bonus { display: inline-block; background: rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 30px; font-size: 0.9rem; margin-bottom: 30px; }
+
+/* Dynamic SOS Modal Animations */
+.rain-container { position: fixed; inset: 0; pointer-events: none; z-index: 99; overflow: hidden; }
+.raindrop { position: absolute; top: -50px; width: 2px; height: 30px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.6)); animation: fall linear forwards; }
+@keyframes fall { to { transform: translateY(110vh); opacity: 0; } }
+@keyframes floatHeart { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-100vh) scale(2); opacity: 0; } }
 
 /* 8. Promises */
 .promises-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
