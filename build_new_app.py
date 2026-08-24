@@ -17,86 +17,89 @@ const $ = (selector, scope = document) => scope.querySelector(selector);
 const $all = (selector, scope = document) => [...scope.querySelectorAll(selector)];
 
 // Web Audio API for interactive sounds
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioCtx;
+try { audioCtx = new AudioContext(); } catch(e) { console.error('AudioContext error', e); }
 
-function playMeow() {
-  if(audioCtx.state === 'suspended') audioCtx.resume();
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.connect(gain); gain.connect(audioCtx.destination);
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(500, audioCtx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.2);
-  osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.5);
-  gain.gain.setValueAtTime(0, audioCtx.currentTime);
-  gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.1);
-  gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
-  osc.start(); osc.stop(audioCtx.currentTime + 0.5);
-}
-
-function playPurr() {
-  if(audioCtx.state === 'suspended') audioCtx.resume();
-  const bufferSize = audioCtx.sampleRate * 2;
-  const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let i = 0; i < bufferSize; i++) { data[i] = (Math.random() * 2 - 1) * 0.2; }
-  const noise = audioCtx.createBufferSource();
-  noise.buffer = buffer;
-  const biquad = audioCtx.createBiquadFilter();
-  biquad.type = 'lowpass'; biquad.frequency.value = 150;
-  
-  const gain = audioCtx.createGain();
-  gain.gain.setValueAtTime(0, audioCtx.currentTime);
-  const lfo = audioCtx.createOscillator();
-  lfo.type = 'sine'; lfo.frequency.value = 25;
-  const lfoGain = audioCtx.createGain(); lfoGain.gain.value = 0.5;
-  lfo.connect(lfoGain); lfoGain.connect(gain.gain);
-  noise.connect(biquad); biquad.connect(gain); gain.connect(audioCtx.destination);
-  gain.gain.linearRampToValueAtTime(0.6, audioCtx.currentTime + 0.2);
-  gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.8);
-  noise.start(); lfo.start(); noise.stop(audioCtx.currentTime + 2); lfo.stop(audioCtx.currentTime + 2);
+function safePlay(playFn) {
+  try {
+    if(!audioCtx) return;
+    if(audioCtx.state === 'suspended') audioCtx.resume().then(() => playFn()).catch(e=>console.error(e));
+    else playFn();
+  } catch(e) { console.error('Play error', e); }
 }
 
 function playPop() {
-  if(audioCtx.state === 'suspended') audioCtx.resume();
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.connect(gain); gain.connect(audioCtx.destination);
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
-  gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-  osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+  safePlay(() => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.type = 'sine'; osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.1);
+    gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+  });
+}
+
+function playPurr() {
+  safePlay(() => {
+    const bufferSize = audioCtx.sampleRate * 2;
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for(let i=0; i<bufferSize; i++) { data[i] = (Math.random() * 2 - 1) * 0.2; }
+    const noise = audioCtx.createBufferSource();
+    noise.buffer = buffer;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass'; filter.frequency.value = 150;
+    const gain = audioCtx.createGain();
+    noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+    gain.gain.setValueAtTime(0, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.5);
+    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 2);
+    noise.start();
+  });
+}
+
+function playMeow() {
+  safePlay(() => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.type = 'triangle'; osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.3);
+    gain.gain.setValueAtTime(0, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+  });
 }
 
 function playHeartbeat() {
-  if(audioCtx.state === 'suspended') audioCtx.resume();
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.connect(gain); gain.connect(audioCtx.destination);
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(60, audioCtx.currentTime);
-  gain.gain.setValueAtTime(0, audioCtx.currentTime);
-  gain.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.1);
-  gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.2);
-  osc.frequency.setValueAtTime(60, audioCtx.currentTime + 0.3);
-  gain.gain.setValueAtTime(0, audioCtx.currentTime + 0.3);
-  gain.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.4);
-  gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.6);
-  osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.7);
+  safePlay(() => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.type = 'sine'; osc.frequency.setValueAtTime(50, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.1);
+    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3);
+    gain.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.5);
+    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.8);
+    osc.start(); osc.stop(audioCtx.currentTime + 1);
+  });
 }
 
 function playChime() {
-  if(audioCtx.state === 'suspended') audioCtx.resume();
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.connect(gain); gain.connect(audioCtx.destination);
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-  gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 2);
-  osc.start(); osc.stop(audioCtx.currentTime + 2);
+  safePlay(() => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.type = 'sine'; osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 2);
+    osc.start(); osc.stop(audioCtx.currentTime + 2);
+  });
 }
 
 function createRain() {
@@ -112,6 +115,24 @@ function createRain() {
     rainContainer.appendChild(drop);
   }
   setTimeout(() => rainContainer.remove(), 5000);
+}
+
+function createConfetti() {
+  const c = document.createElement('div');
+  c.className = 'rain-container';
+  document.body.appendChild(c);
+  const colors = ['#e5b869', '#ff4d6d', '#0ecbb5', '#ffffff'];
+  for(let i=0; i<60; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.top = '-10px';
+    p.style.animation = `fall ${Math.random() * 2 + 2}s linear forwards`;
+    p.style.animationDelay = (Math.random() * 2) + 's';
+    c.appendChild(p);
+  }
+  setTimeout(() => c.remove(), 5000);
 }
 
 function createFloatingHearts() {
@@ -235,7 +256,8 @@ function renderApp() {
         'linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,58,138,0.95))', // Blue/Rain
         'linear-gradient(135deg, rgba(23,15,42,0.95), rgba(76,29,149,0.95))', // Purple/Breathe
         'linear-gradient(135deg, rgba(42,15,23,0.95), rgba(190,18,60,0.95))', // Rose/Heart
-        'linear-gradient(135deg, rgba(42,26,15,0.95), rgba(154,52,18,0.95))'  // Orange/Anger
+        'linear-gradient(135deg, rgba(42,26,15,0.95), rgba(154,52,18,0.95))', // Orange/Anger
+        'linear-gradient(135deg, rgba(229,184,105,0.95), rgba(15,23,42,0.95))'  // Gold/Final
       ];
       
       modal.style.background = colors[index % colors.length];
@@ -248,7 +270,9 @@ function renderApp() {
       if (index === 0) { playChime(); createRain(); }
       else if (index === 1) { playChime(); }
       else if (index === 2) { playHeartbeat(); createFloatingHearts(); }
-      else { playPop(); }
+      else if (index === 3) { playPop(); }
+      else if (index === 4) { playChime(); createConfetti(); }
+
       
       modal.classList.add('active');
     });
@@ -370,6 +394,28 @@ function initObserver() {
   const observer = new IntersectionObserver(entries => entries.forEach(entry => {
     if (entry.isIntersecting) { 
       entry.target.classList.add('is-visible'); 
+      
+      // Floating emojis for timeline
+      if (entry.target.classList.contains('timeline-item')) {
+        const text = entry.target.innerText.toLowerCase();
+        let emoji = '';
+        if(text.includes('eis')) emoji = '🍦';
+        else if(text.includes('katze') || text.includes('suri') || text.includes('pamuk')) emoji = '🐾';
+        else if(text.includes('liebe') || text.includes('herz')) emoji = '❤️';
+        else if(text.includes('hochzeit') || text.includes('ring')) emoji = '💍';
+        else if(text.includes('zukunft')) emoji = '✨';
+        
+        if (emoji) {
+          const l = document.createElement('div');
+          l.innerHTML = emoji;
+          l.className = 'falling-leaf'; // reuse animation
+          l.style.left = (Math.random() * 80 + 10) + '%';
+          l.style.animationDuration = '4s';
+          entry.target.appendChild(l);
+          setTimeout(() => l.remove(), 4000);
+        }
+      }
+
       if (entry.target.id === 'tree-trigger' && !treeRevealed) {
         treeRevealed = true;
         const c = $('.tree-section');
@@ -687,13 +733,17 @@ full_html = """
       <p class="section-desc reveal" style="margin: 0 auto 40px;">Ein Schwur, der niemals verblasst.</p>
       
       <div class="tree-container reveal" id="tree-trigger" style="position: relative; display: inline-block;">
+        <p class="carve-story" style="font-style:italic; font-size:1.1rem; color:var(--gold); margin-bottom: 20px;">
+          "Ich habe deinen Namen in mein Herz geritzt und da bleibt er bis zum Tod."<br>
+          <span style="font-size:0.9rem; color:var(--text-muted);">(Denis)</span>
+        </p>
         <svg width="250" height="400" viewBox="0 0 200 400" class="tree-svg">
           <!-- Tree trunk -->
           <path d="M50,400 Q80,200 60,0 L140,0 Q120,200 150,400 Z" fill="#3E2723" />
           <path d="M70,400 Q90,200 80,0" stroke="#1b100e" stroke-width="3" fill="none" />
           <path d="M130,400 Q110,200 120,0" stroke="#1b100e" stroke-width="2" fill="none" />
           <!-- Carved heart -->
-          <g transform="translate(65, 120) scale(1.3)">
+          <g transform="translate(35, 120) scale(1.3)">
              <path d="M25,25 A12,12 0,0,1 50,25 A12,12 0,0,1 75,25 Q75,45 50,70 Q25,45 25,25 Z" fill="none" stroke="#ffe0b2" stroke-width="2" class="carve-path"/>
              <text x="50" y="47" font-family="'Playfair Display'" font-size="16" fill="#ffe0b2" text-anchor="middle" font-style="italic" class="carve-text">S N</text>
           </g>

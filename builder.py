@@ -237,47 +237,50 @@ date_roulette_ideas = [
     {'title': "🌊 Romantischer Sonnenuntergang am See", 'desc': "Decke einpacken, Musik über Spotify anmachen, aneinanderkuscheln und den Himmel beobachten.", 'tag': "Romantik"},
     {'title': "🏰 Wien-Traum-Wochenende", 'desc': "Gemeinsam durch Wien spazieren, Sachertorte probieren und Schloss Schönbrunn unsicher machen.", 'tag': "Reise"},
     {'title': "🎬 12-Stunden-Filmmarathon im Bett", 'desc': "Popcorn, Nachos, Deckenburg bauen und eine komplette Serie durchsuchten.", 'tag': "Cozy"},
-    {'title': "🍕 Denis kocht Sellys Lieblingsessen", 'desc': "Küche reserviert für Denis – Selly darf sich einfach zurücklehnen und bekochen lassen.", 'tag': "Verwöhnung"},
-    {'title': "🐾 Katzenspieltag & Kuschel-Olymp", 'desc': "Suri & Pamuk mit Leckerlis verwöhnen und gemeinsam auf der Couch dösen.", 'tag': "Family"}
+    {'title': "🍕 Denis kocht Sellys Lieblingsessen", 'desc': "Küche reserviert für Denis – Selly darf sich einfach zurücklehnen und bekochen lassen.", 'tag': "Verwöhnung"}
 ]
 
 # 7. SAFE HARBOR SOS BUTTONS
 safe_harbor_data = [
     {
-        'id': "stress",
-        'title': "⚡ Ich bin gestresst von der Arbeit / der Welt",
-        'icon': "🍃",
-        'advice': "Tief einatmen. Schließe für 10 Sekunden die Augen.",
-        'quote': "„Niemand ist weiter im Leben als jemand anderes. Jeder führt sein eigenes Leben. Entspann dich, du machst das großartig.“ (Selly)",
-        'actionText': "Atemübung starten",
-        'bonus': "Ein virtueller Schultermassage- & Ruhe-Gutschein von Denis!"
+        'title': "Schlechter Tag?",
+        'icon': "🌧️",
+        'advice': "Atme tief durch. Ich bin hier, auch wenn alles schwer scheint.",
+        'quote': "Nichts ist so dunkel, dass wir es nicht zusammen erhellen können.",
+        'actionText': "Lass den Regen fallen, bis die Sonne wieder scheint.",
+        'bonus': "Denk an das Matcha-Eis, das auf uns wartet."
     },
     {
-        'id': "mad",
-        'title': "🔥 Ich bin sauer oder enttäuscht",
-        'icon': "❤️‍🩹",
-        'advice': "Schau dir diesen Moment an: Wir haben uns geschworen, niemals die Wut gewinnen zu lassen.",
-        'quote': "„Ich habe deinen Namen in mein Herz geritzt und da bleibt er bis zum Tod.“ (Denis, 07.08.2025)",
-        'actionText': "Friedenspfeife rauchen",
-        'bonus': "Gutschein: Denis gibt sofort nach, entschuldigt sich mit einer Umarmung & bringt Eis!"
+        'title': "Gedankenkarussell?",
+        'icon': "🌪️",
+        'advice': "Dein Kopf ist zu laut. Lass uns kurz alles andere ausblenden.",
+        'quote': "In meinem Arm ist es still. Hier bist du sicher.",
+        'actionText': "Fokus. Einatmen. Ausatmen.",
+        'bonus': "Ich liebe jede deiner Facetten, auch die chaotischen."
     },
     {
-        'id': "miss",
-        'title': "🥺 Ich vermisse dich gerade unendlich",
-        'icon': "🌌",
-        'advice': "Egal wo wir gerade physisch sind: Im Herzen halten wir uns fest an den Händen.",
-        'quote': "„Ich bleib für dich wach, egal wie müde ich bin... weil du mein Zuhause bist.“",
-        'actionText': "Herzschlag spüren",
-        'bonus': "Sofort eine Sprachnachricht oder ein 'Ich liebe dich' anfordern!"
+        'title': "Vermisse dich",
+        'icon': "🥺",
+        'advice': "Die Distanz ist nur physisch. Mein Herz ist direkt bei deinem.",
+        'quote': "Es gibt keinen Ort auf der Welt, an dem ich lieber wäre als bei dir.",
+        'actionText': "Spürst du den Herzschlag?",
+        'bonus': "Schau auf den Mond, wir sehen beide denselben."
     },
     {
-        'id': "hug",
-        'title': "🧸 Ich brauche einfach Liebe & Geborgenheit",
-        'icon': "💖",
-        'advice': "Kuscheldecke nehmen, diesen Bildschirm ansehen und wissen: Du wirst bedingungslos geliebt.",
-        'quote': "„Heirate mich und du wirst 150 Jahre alt werden...“ (11.08.2025)",
-        'actionText': "Mega-Knuddler auslösen",
-        'bonus': "Unendlicher digitaler Kuschel-Vorrat aktiviert!"
+        'title': "Wütend auf die Welt?",
+        'icon': "😡",
+        'advice': "Lass es raus! Die Welt ist dumm, aber wir beide sind ein super Team.",
+        'quote': "Wenn alles nervt, ärgern wir die Welt einfach zusammen.",
+        'actionText': "Lass es platzen!",
+        'bonus': "Pamuk würde jetzt zur Ablenkung auf einen Baum klettern."
+    },
+    {
+        'title': "Und noch etwas...",
+        'icon': "💌",
+        'advice': "Egal was passiert, egal wie schwer die Zeiten sein mögen...",
+        'quote': "Du bist das absolut Schönste, was mir in meinem ganzen Leben passiert ist. Ich liebe dich über alles, mein Schatz.",
+        'actionText': "Für immer dein Pepe.",
+        'bonus': "150 Jahre und länger. ❤️"
     }
 ]
 
