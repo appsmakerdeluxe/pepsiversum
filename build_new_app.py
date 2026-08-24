@@ -1135,6 +1135,232 @@ full_html = """
   100% { transform: translate(var(--dx), var(--dy)) scale(1.4); opacity: 0; }
 }
 
+
+/* ==========================================
+   STORYBOOK CSS & AESTHETICS
+   ========================================== */
+.theme-storybook {
+  background: radial-gradient(circle at 50% 20%, rgba(157, 78, 221, 0.1) 0%, rgba(9, 10, 15, 0.98) 75%);
+  border-top: 1px solid rgba(229,184,105,0.25);
+  position: relative;
+}
+
+.book-ambient-glow {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(157, 78, 221, 0.12) 0%, rgba(229,184,105,0.06) 50%, transparent 70%);
+  pointer-events: none;
+  animation: pulseGlow 6s ease-in-out infinite alternate;
+}
+
+.book-cover-wrap {
+  background: linear-gradient(135deg, #2b1725 0%, #15091c 60%, #2a1122 100%);
+  border: 3px double rgba(229, 184, 105, 0.7);
+  border-radius: 18px;
+  padding: 40px 25px;
+  position: relative;
+  box-shadow: 0 15px 45px rgba(0,0,0,0.8), 0 0 35px rgba(157, 78, 221, 0.25), inset 0 0 25px rgba(0,0,0,0.7);
+  overflow: hidden;
+}
+
+.book-cover-wrap:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 55px rgba(0,0,0,0.9), 0 0 45px rgba(229, 184, 105, 0.35);
+}
+
+.book-spine-decor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 18px;
+  background: linear-gradient(90deg, rgba(229,184,105,0.4), rgba(0,0,0,0.6));
+  border-right: 1px solid rgba(229,184,105,0.3);
+}
+
+.book-corner {
+  position: absolute;
+  font-size: 1.2rem;
+  color: var(--gold);
+  opacity: 0.8;
+}
+.book-corner.tl { top: 10px; left: 25px; }
+.book-corner.tr { top: 10px; right: 15px; }
+.book-corner.bl { bottom: 10px; left: 25px; }
+.book-corner.br { bottom: 10px; right: 15px; }
+
+.book-ribbon-tag {
+  display: inline-block;
+  background: linear-gradient(90deg, var(--rose), var(--purple));
+  color: #fff;
+  padding: 8px 22px;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+  animation: pulseCandle 2.5s infinite;
+}
+
+/* OPENED BOOK FOLIO */
+.book-folio {
+  background: linear-gradient(135deg, #1b1622 0%, #110d18 50%, #1b1622 100%);
+  border: 2px solid rgba(229, 184, 105, 0.45);
+  border-radius: 20px;
+  padding: 35px 25px;
+  min-height: 480px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.85), inset 0 0 50px rgba(0,0,0,0.6);
+  backdrop-filter: blur(12px);
+  text-align: left;
+}
+
+.book-spine-center {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, rgba(229,184,105,0.2) 20%, rgba(229,184,105,0.2) 80%, transparent);
+  box-shadow: 0 0 15px rgba(0,0,0,0.8);
+  pointer-events: none;
+}
+
+.book-page-content {
+  position: relative;
+  z-index: 2;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.book-page-header {
+  border-bottom: 1px solid rgba(229,184,105,0.2);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.book-page-title {
+  font-family: 'Playfair Display', serif;
+  color: var(--gold);
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.book-chapter-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--rose);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.book-quote-box {
+  background: rgba(255,255,255,0.03);
+  border-left: 3px solid var(--gold);
+  padding: 16px 20px;
+  border-radius: 0 12px 12px 0;
+  margin: 20px 0;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #f1f5f9;
+}
+
+/* Secret Note Flap */
+.book-secret-flap {
+  background: rgba(229, 184, 105, 0.08);
+  border: 1px dashed rgba(229, 184, 105, 0.4);
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.book-secret-flap:hover {
+  background: rgba(229, 184, 105, 0.14);
+  border-color: var(--gold);
+}
+
+.book-flap-title {
+  color: var(--gold);
+  font-weight: bold;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.book-flap-content {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(229,184,105,0.2);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #cbd5e1;
+  display: none;
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Controls */
+.book-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  gap: 10px;
+}
+
+.book-nav-btn {
+  background: linear-gradient(135deg, rgba(229,184,105,0.2), rgba(255,77,109,0.2));
+  border: 1px solid rgba(229,184,105,0.4);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.book-nav-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--gold), var(--rose));
+  color: #000;
+  box-shadow: 0 0 20px rgba(229,184,105,0.4);
+  transform: translateY(-2px);
+}
+
+.book-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.book-indicator {
+  font-family: 'DM Mono', monospace;
+  color: var(--gold);
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+}
+
+.book-particle-fly {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  animation: bookFly linear forwards;
+}
+
+@keyframes bookFly {
+  0% { transform: translateY(100%) scale(0.6) rotate(0deg); opacity: 0; }
+  20% { opacity: 0.9; }
+  80% { opacity: 0.9; }
+  100% { transform: translateY(-30%) scale(1.3) rotate(25deg); opacity: 0; }
+}
+
 </style>
 </head>
 <body>
@@ -1385,7 +1611,69 @@ full_html = """
       </div>
     </section>
 
-        <!-- EIN KANAL ZU UNSEREN HERZEN -->
+        
+    <!-- DAS BUCH UNSERES LEBENS -->
+    <section class="section theme-storybook" id="storybook-section" style="position: relative; overflow: hidden; text-align: center;">
+      <div class="book-ambient-glow"></div>
+      <span class="chapter-tag reveal" style="color: var(--gold); letter-spacing: 4px;">Das ewige Archiv</span>
+      <h2 class="title reveal" style="color: #fff; text-shadow: 0 0 25px rgba(229,184,105,0.4);">Das Buch unseres Lebens</h2>
+      <p class="section-desc reveal" style="max-width: 650px; margin: 0 auto 30px auto; color: #cbd5e1;">
+        Eine handschriftliche Reise durch unsere Gedanken, Träume, geheimen Notizen und das Band zwischen unseren Seelen.
+      </p>
+
+      <!-- CLOSED BOOK (COVER) -->
+      <div id="book-closed" class="reveal" style="margin: 30px auto; max-width: 440px; cursor: pointer; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+        <div class="book-cover-wrap">
+          <div class="book-spine-decor"></div>
+          <div class="book-corner tl">⚜️</div>
+          <div class="book-corner tr">⚜️</div>
+          <div class="book-corner bl">⚜️</div>
+          <div class="book-corner br">⚜️</div>
+          <div style="font-size: 3.5rem; margin-bottom: 10px; filter: drop-shadow(0 0 15px gold);">📖</div>
+          <h3 style="font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.8rem; letter-spacing: 1px; margin-bottom: 8px;">
+            Das Buch unseres Lebens
+          </h3>
+          <p style="color: var(--rose); font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.1rem; margin-bottom: 20px;">
+            Denis & Selinda
+          </p>
+          <div class="book-ribbon-tag">
+            ✨ Tippe, um das Buch aufzuschlagen ✨
+          </div>
+        </div>
+      </div>
+
+      <!-- OPENED BOOK CONTAINER -->
+      <div id="book-opened" style="display: none; opacity: 0; max-width: 860px; margin: 20px auto; position: relative;">
+        
+        <!-- Book Page Atmosphere Particle Container -->
+        <div id="book-particles-container" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events: none; overflow: hidden; z-index: 5;"></div>
+
+        <div class="book-folio">
+          <div class="book-spine-center"></div>
+
+          <!-- DYNAMIC PAGE CONTENT CONTAINER -->
+          <div id="book-page-body" class="book-page-content">
+            <!-- Will be populated via JS -->
+          </div>
+        </div>
+
+        <!-- Book Navigation Bar -->
+        <div class="book-controls">
+          <button id="book-prev-btn" class="book-nav-btn">❮ Vorherige Seite</button>
+          <div id="book-page-indicator" class="book-indicator">Seite 1 von 6</div>
+          <button id="book-next-btn" class="book-nav-btn">Nächste Seite ❯</button>
+        </div>
+
+        <div style="margin-top: 15px;">
+          <button id="book-close-btn" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #a1b0c0; border-radius: 20px; padding: 6px 18px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">
+            ✕ Buch schließen
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- EIN KANAL ZU UNSEREN HERZEN -->
     <section class="section theme-kapelle" id="kapelle-section" style="position: relative; overflow: hidden;">
       <div class="candle-ambient-glow"></div>
       <span class="chapter-tag reveal" style="color: var(--gold); letter-spacing: 3px;">Seelenverbindung & Schutz</span>
