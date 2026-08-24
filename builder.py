@@ -58,42 +58,47 @@ for i, m in enumerate(messages):
 
 print(f"Extracted {len(spotify_tracks)} unique Spotify items.")
 
-# 2. LATE NIGHT ARCHIVE (00:00 to 05:59)
+# 2. LATE NIGHT DIALOGUES (00:00 to 05:59)
 romantic_kw = ['liebe dich', 'mein herz', 'engel', 'schnecke', 'traum', 'wunderschön', 'vermisse dich', 'nur dich', 'für immer', 'küssen', 'kuscheln', 'schönste', 'süße', 'süßer', 'glücklich', 'bärchen', 'schatz']
 flirty_kw = ['sexy', 'heiß', 'bett', 'nackt', 'körper', 'berühren', 'spüren', 'ausziehen', 'verführen', 'anfassen', 'lippen', 'küssen', 'kuscheln', 'intim', 'erotik', 'lust', 'leidenschaft', 'vermiss', 'anziehen', 'wecken', 'warm', 'umarmen']
 deep_kw = ['zukunft', 'angst', 'leben', 'druck', 'verstehen', 'nachdenken', 'mensch', 'herz', 'sorgen', 'egal was passiert', 'vertrauen', 'treue', 'zusammenhalt', 'problem', 'stolz', 'schaffen das']
-funny_kw = ['hahaha', 'xd', 'lol', 'witzig', 'katze', 'suri', 'pamuk', 'eis', 'pizza', 'döner', 'müde', 'schlafen', 'wecker', 'aufstehen', 'verrückt', 'faul', 'doof', 'hunger']
 
-late_night_dict = {
-    'romantic': [],
-    'flirty': [],
-    'deeptalk': [],
-    'funny': []
-}
+keywords = romantic_kw + flirty_kw + deep_kw
+late_night_dialogues = []
+seen_indices = set()
 
-for m in messages:
+for i, m in enumerate(messages):
+    if i in seen_indices: continue
+    
     hour = int(m['time'].split(':')[0])
     if hour in [0, 1, 2, 3, 4, 5]:
-        txt = m['text'].strip()
-        t_low = txt.lower()
-        if len(txt) < 18 or len(txt) > 500:
-            continue
-        if any(w in t_low for w in ['nachricht wurde gelöscht', '<medien ausgeschlossen>', 'image omitted', 'audio omitted', 'sticker']):
-            continue
-        item = {
-            'date': m['date'],
-            'time': m['time'],
-            'sender': m['sender'],
-            'text': txt
-        }
-        if any(k in t_low for k in romantic_kw) and len(late_night_dict['romantic']) < 80:
-            late_night_dict['romantic'].append(item)
-        elif any(k in t_low for k in flirty_kw) and len(late_night_dict['flirty']) < 80:
-            late_night_dict['flirty'].append(item)
-        elif any(k in t_low for k in deep_kw) and len(late_night_dict['deeptalk']) < 80:
-            late_night_dict['deeptalk'].append(item)
-        elif any(k in t_low for k in funny_kw) and len(late_night_dict['funny']) < 80:
-            late_night_dict['funny'].append(item)
+        txt = m['text'].strip().lower()
+        if len(txt) > 30 and any(k in txt for k in keywords):
+            if any(w in txt for w in ['gelöscht', '<medien ausgeschlossen>', 'image omitted', 'audio omitted']):
+                continue
+                
+            window = messages[max(0, i-2) : min(len(messages), i+3)]
+            senders = set(msg['sender'] for msg in window)
+            
+            if len(senders) > 1:
+                dialogue_msgs = []
+                for msg in window:
+                    dialogue_msgs.append({
+                        'date': msg['date'],
+                        'time': msg['time'],
+                        'sender': msg['sender'],
+                        'text': msg['text']
+                    })
+                late_night_dialogues.append(dialogue_msgs)
+                
+                # skip nearby messages to avoid overlapping dialogues
+                for j in range(max(0, i-4), min(len(messages), i+5)):
+                    seen_indices.add(j)
+                    
+            if len(late_night_dialogues) >= 15:
+                break
+
+late_night_dict = {'romantic': late_night_dialogues}  # Keep format somewhat compatible, though we'll change frontend
 
 # 3. KINTSUGI STORIES
 kintsugi_stories = [

@@ -87,13 +87,21 @@ function playPop() {
 
 function renderApp() {
   // 1. Late Night
-  const romanticMsgs = appData.lateNight.romantic.slice(0, 10).map((m, i) => `
-    <div class="chat-bubble ${m.sender === 'Denis' ? 'right' : 'left'} reveal" style="transition-delay: ${i * 0.1}s">
-      <div class="chat-meta">${m.date} • ${m.time}</div>
-      <div class="chat-text">${m.text}</div>
-    </div>
-  `).join('');
-  $('#latenight-container').innerHTML = romanticMsgs;
+  const lateNightDialogues = appData.lateNight.romantic.slice(0, 15).map((dialogue, dIndex) => {
+    const bubbles = dialogue.map((m, i) => `
+      <div class="chat-bubble ${m.sender === 'Denis' ? 'right' : 'left'}">
+        <div class="chat-meta">${m.date} • ${m.time}</div>
+        <div class="chat-text">${m.text}</div>
+      </div>
+    `).join('');
+    return `<div class="dialogue-block reveal" style="margin-bottom: 50px; border-left: 2px solid var(--gold); padding-left: 20px;">
+              <span class="dialogue-title" style="color: var(--gold); font-family: 'DM Mono'; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Erinnerung ${dIndex + 1}</span>
+              <div class="chat-group" style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                ${bubbles}
+              </div>
+            </div>`;
+  }).join('');
+  $('#latenight-container').innerHTML = lateNightDialogues;
 
   // 2. Spotify
   const tracks = appData.spotify.slice(0, 15).map(s => `
