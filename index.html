@@ -12,23 +12,34 @@
   <link rel="stylesheet" href="unlock.css" />
 </head>
 <body>
-  <main class="stage">
-    <button class="envelope" id="open" type="button" aria-label="Brief öffnen">
-      <span class="flap"></span>
-      <span class="seal">P</span>
-    </button>
-    <p class="hint">Für Pepsi · Tippe, um zu öffnen</p>
+  <div class="ambient-stars" aria-hidden="true"></div>
+  
+  <main class="gate-stage">
     
-    <form id="unlock" class="unlock" hidden>
-      <p class="eyebrow">Ein kleiner Schlüssel</p>
-      <h1>Nur für<br><em>Pepsi.</em></h1>
-      <p>Gib den kleinen Code ein, dann öffnet sich das Pepsiversum.</p>
-      <label for="passphrase">Code</label>
-      <input id="passphrase" type="password" autocomplete="off" required />
+    <div class="orb-container" id="orb-trigger" tabindex="0" role="button" aria-label="Universum betreten">
+      <div class="pulse-ring"></div>
+      <div class="glowing-orb"></div>
+      <p class="hint-text">Tippe, um das Universum zu betreten</p>
+    </div>
+
+    <form id="unlock" class="unlock-card" hidden>
+      <div class="card-header">
+        <p class="eyebrow">Ein digitaler Schlüssel</p>
+        <h1>Nur für<br><em>Pepsi.</em></h1>
+      </div>
+      <p class="desc">Gib unseren kleinen Code ein, um die Erinnerungen zu entsperren.</p>
+      
+      <div class="input-group">
+        <label for="passphrase">Passwort</label>
+        <input id="passphrase" type="password" autocomplete="off" required />
+      </div>
+      
       <p class="error" id="error" aria-live="polite"></p>
-      <button>Pepsiversum betreten →</button>
+      <button class="submit-btn" type="submit">Eintreten ✨</button>
     </form>
+    
   </main>
+  
   <script src="unlock.js"></script>
 </body>
 </html>

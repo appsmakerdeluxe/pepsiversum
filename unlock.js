@@ -1,10 +1,24 @@
+const orbTrigger = document.querySelector('#orb-trigger');
 const form = document.querySelector('#unlock');
 const input = document.querySelector('#passphrase');
 const error = document.querySelector('#error');
 
-document.querySelector('#open').addEventListener('click', () => { 
-  form.hidden = false; 
-  input.focus(); 
+// Show form when clicking the orb
+orbTrigger.addEventListener('click', () => { 
+  orbTrigger.classList.add('hidden');
+  setTimeout(() => {
+    orbTrigger.style.display = 'none';
+    form.hidden = false; 
+    input.focus(); 
+  }, 400); // Wait for fade out animation
+});
+
+// Also allow Enter key on orb if focused
+orbTrigger.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    orbTrigger.click();
+  }
 });
 
 const bytes = value => Uint8Array.from(atob(value), char => char.charCodeAt(0));
