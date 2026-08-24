@@ -274,14 +274,7 @@ safe_harbor_data = [
         'actionText': "Lass es platzen!",
         'bonus': "Pamuk würde jetzt zur Ablenkung auf einen Baum klettern."
     },
-    {
-        'title': "Und noch etwas...",
-        'icon': "💌",
-        'advice': "Egal was passiert, egal wie schwer die Zeiten sein mögen...",
-        'quote': "Du bist das absolut Schönste, was mir in meinem ganzen Leben passiert ist. Ich liebe dich über alles, mein Schatz.",
-        'actionText': "Für immer dein Pepe.",
-        'bonus': "150 Jahre und länger. ❤️"
-    }
+    
 ]
 
 # 8. THE PROMISE VAULT
