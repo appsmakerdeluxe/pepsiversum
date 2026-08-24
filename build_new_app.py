@@ -362,9 +362,25 @@ function createConfetti(rect) {
 }
 
 function initObserver() {
+  let treeRevealed = false;
   const observer = new IntersectionObserver(entries => entries.forEach(entry => {
     if (entry.isIntersecting) { 
       entry.target.classList.add('is-visible'); 
+      if (entry.target.id === 'tree-trigger' && !treeRevealed) {
+        treeRevealed = true;
+        const c = $('.tree-section');
+        for(let i=0; i<35; i++) {
+          setTimeout(() => {
+            const l = document.createElement('div');
+            l.innerHTML = ['🍂', '🍁', '🍃'][Math.floor(Math.random()*3)];
+            l.className = 'falling-leaf';
+            l.style.left = (Math.random() * 100) + '%';
+            l.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            c.appendChild(l);
+            setTimeout(() => l.remove(), 7000);
+          }, i * 200);
+        }
+      }
       observer.unobserve(entry.target); 
     }
   }), { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
@@ -485,6 +501,14 @@ h2.title em { color: var(--rose); font-style: italic; }
 .raindrop { position: absolute; top: -50px; width: 2px; height: 30px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.6)); animation: fall linear forwards; }
 @keyframes fall { to { transform: translateY(110vh); opacity: 0; } }
 @keyframes floatHeart { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-100vh) scale(2); opacity: 0; } }
+
+/* 8.5. Tree */
+.carve-path { stroke-dasharray: 200; stroke-dashoffset: 200; transition: stroke-dashoffset 4s cubic-bezier(0.4, 0, 0.2, 1); }
+.tree-container.is-visible .carve-path { stroke-dashoffset: 0; }
+.carve-text { opacity: 0; transition: opacity 2s ease-in; transition-delay: 2s; }
+.tree-container.is-visible .carve-text { opacity: 1; }
+.falling-leaf { position: absolute; font-size: 1.5rem; animation: leafFall linear forwards; z-index: 10; pointer-events: none; }
+@keyframes leafFall { 0% { transform: translate(0, -50px) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 100% { transform: translate(150px, 110vh) rotate(720deg); opacity: 0; } }
 
 /* 8. Promises */
 .promises-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
@@ -637,6 +661,27 @@ full_html = """
       <h2 class="title reveal">Schrein der<br><em>Versprechen</em></h2>
       <p class="section-desc reveal">Dinge, die für die Ewigkeit in Stein und Herz gemeißelt sind.</p>
       <div id="promises-container" class="promises-grid"></div>
+    </section>
+
+    <!-- 8.5. CARVED TREE -->
+    <section class="section tree-section" style="text-align: center; overflow: hidden; position: relative;">
+      <span class="chapter-tag reveal">Kapitel 08.5</span>
+      <h2 class="title reveal">In die Ewigkeit<br><em>geritzt</em></h2>
+      <p class="section-desc reveal" style="margin: 0 auto 40px;">Ein Schwur, der niemals verblasst.</p>
+      
+      <div class="tree-container reveal" id="tree-trigger" style="position: relative; display: inline-block;">
+        <svg width="250" height="400" viewBox="0 0 200 400" class="tree-svg">
+          <!-- Tree trunk -->
+          <path d="M50,400 Q80,200 60,0 L140,0 Q120,200 150,400 Z" fill="#3E2723" />
+          <path d="M70,400 Q90,200 80,0" stroke="#1b100e" stroke-width="3" fill="none" />
+          <path d="M130,400 Q110,200 120,0" stroke="#1b100e" stroke-width="2" fill="none" />
+          <!-- Carved heart -->
+          <g transform="translate(65, 120) scale(1.3)">
+             <path d="M25,25 A12,12 0,0,1 50,25 A12,12 0,0,1 75,25 Q75,45 50,70 Q25,45 25,25 Z" fill="none" stroke="#ffe0b2" stroke-width="2" class="carve-path"/>
+             <text x="50" y="47" font-family="'Playfair Display'" font-size="16" fill="#ffe0b2" text-anchor="middle" font-style="italic" class="carve-text">S N</text>
+          </g>
+        </svg>
+      </div>
     </section>
 
     <!-- 9. TIMELINE -->

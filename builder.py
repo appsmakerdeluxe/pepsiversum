@@ -317,16 +317,70 @@ promises = [
     }
 ]
 
-# 9. TIMELINE 2024 TO 2074
-timeline_milestones = [
-    {'year': "29.12.2024", 'title': "Der Funke zündet", 'desc': "Die allererste Nachricht im Chat. Niemand ahnte, dass daraus über 215.000 Nachrichten und eine unendliche Liebesgeschichte werden."},
-    {'year': "Silvester 2024", 'title': "Katzen-Schutz & Nachtwache", 'desc': "Selly verschanzt sich mit den Katzen im Bad, Denis hält ihr stundenlang digital die Hand."},
-    {'year': "Sommer 2025", 'title': "Tiefe Bekenntnisse & Schwüre", 'desc': "Der Schwur 'Name ins Herz geritzt', die 150-Jahre-Heirats-Sprüche und unzählige Spotify-Nächte."},
-    {'year': "2026", 'title': "Das Jetzt & Unsere Festung", 'desc': "Gereift, unzertrennlich, verständnisvoll. Wir wissen genau, wie der andere tickt und halten zusammen wie Pech und Schwefel."},
-    {'year': "2028 - 2030", 'title': "Das gemeinsame Reich", 'desc': "Die erste gemeinsame Wohnung. Doppelte Geräte, eine gigantische Eistruhe und glückliche Katzen."},
-    {'year': "2040+", 'title': "Große Abenteuer & Reisen", 'desc': "Wien, Strände am Mittelmeer, Roadtrips mit Musik aus unserem 183-Lieder-Mixtape."},
-    {'year': "2074+", 'title': "150 Jahre & Parkbank-Eis", 'desc': "Mit 80 Jahren Hand in Hand auf einer Bank sitzen, heimlich Matcha-Eis löffeln und über alte WhatsApp-Nachrichten lachen."}
+# 9. EXTENDED TIMELINE (Real + Future)
+timeline_events = []
+if len(messages) > 0:
+    # 1. First Message
+    timeline_events.append({
+        'year': messages[0]['date'],
+        'title': 'Der allererste Funke',
+        'desc': f"Unsere erste Nachricht. {messages[0]['sender']} sagte: '{messages[0]['text'][:40]}...'"
+    })
+
+# Hunt for specific milestones
+milestones_found = set()
+for m in messages:
+    txt = m['text'].lower()
+    date = m['date']
+    if 'ich liebe dich' in txt and 'first_ily' not in milestones_found:
+        timeline_events.append({'year': date, 'title': 'Die drei Worte', 'desc': f"{m['sender']}: '{m['text']}'"})
+        milestones_found.add('first_ily')
+    elif 'katze' in txt and 'first_cat' not in milestones_found:
+        timeline_events.append({'year': date, 'title': 'Katzenthemen', 'desc': f"{m['sender']} bringt das wichtigste Thema auf den Tisch: Katzen."})
+        milestones_found.add('first_cat')
+    elif 'zukunft' in txt and 'first_future' not in milestones_found:
+        timeline_events.append({'year': date, 'title': 'Zukunftsblicke', 'desc': f"Wir sprechen zum ersten Mal über unsere gemeinsame Zukunft."})
+        milestones_found.add('first_future')
+    elif 'eis' in txt and 'first_icecream' not in milestones_found:
+        timeline_events.append({'year': date, 'title': 'Eis-Sucht', 'desc': f"Der Beginn unserer endlosen Eis-Dates."})
+        milestones_found.add('first_icecream')
+    elif 'suri' in txt and 'suri' not in milestones_found:
+        timeline_events.append({'year': date, 'title': 'Suri betritt den Chat', 'desc': f"Die wahre Chefin wird erwähnt."})
+        milestones_found.add('suri')
+
+# Add a bunch of random cute moments spread across the timeline
+import random
+random.seed(42)
+cute_msgs = [m for m in messages if len(m['text']) > 40 and any(k in m['text'].lower() for k in ['perfekt', 'danke', 'süß', 'schön', 'glücklich', 'kuscheln', 'wunderschön', 'traum'])]
+if len(cute_msgs) > 10:
+    sampled = random.sample(cute_msgs, min(10, len(cute_msgs)))
+    # Sort them back by their original occurrence to keep time roughly linear
+    sampled.sort(key=lambda x: messages.index(x))
+    for i, m in enumerate(sampled):
+        timeline_events.append({
+            'year': m['date'],
+            'title': f'Kapitel {i+1} der Verliebtheit',
+            'desc': f"{m['sender']}: '{m['text'][:100]}...'"
+        })
+
+# Sort the past events strictly by their index in the chat to maintain chronological order
+timeline_events.sort(key=lambda x: [m['date'] for m in messages].index(x['year']) if x['year'] in [m['date'] for m in messages] else 0)
+
+# Add future milestones
+future_events = [
+    {'year': '2025', 'title': 'Der erste Urlaub', 'desc': 'Koffer packen, Flugtickets und Sonnenuntergänge.'},
+    {'year': '2026', 'title': 'Zusammenziehen', 'desc': 'Kartons schleppen und das erste gemeinsame Frühstück in der neuen Küche.'},
+    {'year': '2027', 'title': 'Suri & Pamuk\'s neues Reich', 'desc': 'Wir bauen den größten Kratzbaum der Welt ins Wohnzimmer.'},
+    {'year': '2028', 'title': 'Der Roadtrip', 'desc': 'Mit dem Auto durch Europa, nur wir zwei und gute Musik.'},
+    {'year': '2030', 'title': 'Die Hochzeit', 'desc': 'Ein Ring, ein Versprechen, ein großes Fest mit Suri & Pamuk als Ehrengäste.'},
+    {'year': '2032', 'title': 'Das Traumhaus', 'desc': 'Wir kaufen unser Haus mit großem Garten.'},
+    {'year': '2035', 'title': 'Familie', 'desc': 'Unser Zuhause füllt sich mit noch mehr Lachen und Leben.'},
+    {'year': '2040', 'title': 'Das Haus am See', 'desc': 'Hunde, Kinderlachen und endlos Platz.'},
+    {'year': '2050', 'title': 'Silberhochzeit', 'desc': '25 Jahre, und ich sehe dich immer noch so an wie am ersten Tag.'},
+    {'year': '2060', 'title': 'Weltreise', 'desc': 'Wir haben Zeit. Wir reisen um die ganze Welt.'},
+    {'year': '2074', 'title': 'Die Parkbank', 'desc': 'Wir sitzen alt und grau auf einer Bank und halten immer noch Händchen.'}
 ]
+timeline_events.extend(future_events)
 
 # 10. TRIVIA QUIZ
 quiz_questions = [
@@ -412,7 +466,7 @@ app_data = {
     },
     'safeHarbor': safe_harbor_data,
     'promises': promises,
-    'timeline': timeline_milestones,
+    'timeline': timeline_events,
     'quiz': quiz_questions
 }
 
