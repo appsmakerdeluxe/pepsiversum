@@ -121,6 +121,50 @@ function playChime() {
   });
 }
 
+function playTada() {
+  safePlay(() => {
+    [523.25, 659.25, 783.99].forEach(freq => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.type = 'triangle'; osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.5);
+      osc.start(); osc.stop(audioCtx.currentTime + 1.5);
+    });
+  });
+}
+
+function createFireworks() {
+  const c = document.createElement('div');
+  c.className = 'rain-container';
+  document.body.appendChild(c);
+  const colors = ['#ff4d6d', '#e5b869', '#0ecbb5', '#ffffff'];
+  for(let j=0; j<3; j++) {
+    setTimeout(() => {
+      const cx = Math.random() * 60 + 20;
+      const cy = Math.random() * 60 + 20;
+      for(let i=0; i<40; i++) {
+        const p = document.createElement('div');
+        p.style.position = 'absolute';
+        p.style.width = '6px'; p.style.height = '6px';
+        p.style.borderRadius = '50%';
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.left = cx + 'vw';
+        p.style.top = cy + 'vh';
+        const angle = Math.random() * Math.PI * 2;
+        const dist = Math.random() * 150 + 50;
+        p.animate([
+          { transform: `translate(0,0) scale(1.5)`, opacity: 1 },
+          { transform: `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px) scale(0)`, opacity: 0 }
+        ], { duration: 800 + Math.random()*400, easing: 'cubic-bezier(0,0,0.2,1)', fill: 'forwards' });
+        c.appendChild(p);
+      }
+    }, j*300);
+  }
+  setTimeout(() => c.remove(), 3000);
+}
+
 function createRain() {
   const rainContainer = document.createElement('div');
   rainContainer.className = 'rain-container';
@@ -333,7 +377,7 @@ function renderApp() {
   const renderQuiz = () => {
     if(currentQ >= questions.length) {
       $('#quiz-container').innerHTML = `
-        <div class="quiz-result reveal">
+        <div class="quiz-result" style="animation: fadeIn 0.5s forwards;">
           <h3>Quiz Beendet! 🎉</h3>
           <p>Du hast ${score} von ${questions.length} richtig!</p>
           <div class="secret-message">
@@ -352,7 +396,7 @@ function renderApp() {
     options.sort(() => Math.random() - 0.5);
     
     $('#quiz-container').innerHTML = `
-      <div class="quiz-card reveal">
+      <div class="quiz-card" style="animation: fadeIn 0.5s forwards;">
         <span class="step">Frage ${currentQ + 1} von ${questions.length}</span>
         <h3 class="question">${q.q}</h3>
         <div class="options">
@@ -367,7 +411,8 @@ function renderApp() {
         if(isCorrect) {
           e.target.classList.add('correct');
           score++;
-          playPop();
+          playTada();
+          createFireworks();
         } else {
           e.target.classList.add('wrong');
           $all('.quiz-opt').find(b => b.dataset.correct === 'true').classList.add('correct');
@@ -569,6 +614,7 @@ h2.title em { color: var(--rose); font-style: italic; }
 .rain-container { position: fixed; inset: 0; pointer-events: none; z-index: 99; overflow: hidden; }
 .raindrop { position: absolute; top: -50px; width: 2px; height: 30px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.6)); animation: fall linear forwards; }
 @keyframes fall { to { transform: translateY(110vh); opacity: 0; } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes floatHeart { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-100vh) scale(2); opacity: 0; } }
 
 /* 8.5. Tree */
