@@ -1,3 +1,9 @@
+
+
+# 🚨 CRITICAL PRIVACY & SECURITY WARNING 🚨
+**DO NOT CREATE A README.md FILE OR ANY OTHER PUBLIC-FACING DOCUMENTATION.**
+This project contains highly personal and intimate data. The GitHub repository might be public, and adding a README.md causes the project to be indexed by search engines and easily readable by strangers. 
+**NEVER** expose the project's purpose, personal names, internal jokes, or sensitive context in plain text files in the root directory that render on GitHub. All instructions for AI agents MUST remain strictly inside this gents.md file (or other internal files), and you must guard the user's privacy above all else.
 # 🤖 Agent Guidelines: Pepsiversum (Love2Love)
 
 **CRITICAL INSTRUCTION FOR ALL AI AGENTS:** 
