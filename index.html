@@ -1,43 +1,34 @@
 <!doctype html>
-<html lang="de" data-theme="dark">
+<html lang="de">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="robots" content="noindex, nofollow, noarchive" />
-  <title>Pepsiversum</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Für Pepsi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@400;500&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="unlock.css" />
 </head>
 <body>
-  <div id="unlock-container">
-    <div class="stars-bg"></div>
-    <div class="glass-card">
-      <div class="card-icon">✨</div>
-      <h1 class="card-title">Pepsiversum</h1>
-      <p class="card-desc">Ein geschützter Raum voller Erinnerungen, Musik & unserer gemeinsamen Geschichte.</p>
-      
-      <form id="unlock-form">
-        <div class="input-group">
-          <input 
-            type="password" 
-            id="passphrase" 
-            placeholder="Zugangscode eingeben..." 
-            autocomplete="current-password" 
-            required 
-            autofocus
-          />
-          <button type="submit" id="btn-unlock" class="submit-btn">Öffnen ➔</button>
-        </div>
-      </form>
-
-      <div id="error-msg" class="error-text"></div>
-      <div class="card-footer">
-        <span>🔒 AES-256 Verschlüsselt • Nur für Selly</span>
-      </div>
-    </div>
-  </div>
-
-  <div id="app-root" style="display:none;"></div>
-
+  <main class="stage">
+    <button class="envelope" id="open" type="button" aria-label="Brief öffnen">
+      <span class="flap"></span>
+      <span class="seal">P</span>
+    </button>
+    <p class="hint">Für Pepsi · Tippe, um zu öffnen</p>
+    
+    <form id="unlock" class="unlock" hidden>
+      <p class="eyebrow">Ein kleiner Schlüssel</p>
+      <h1>Nur für<br><em>Pepsi.</em></h1>
+      <p>Gib den kleinen Code ein, dann öffnet sich das Pepsiversum.</p>
+      <label for="passphrase">Code</label>
+      <input id="passphrase" type="password" autocomplete="off" required />
+      <p class="error" id="error" aria-live="polite"></p>
+      <button>Pepsiversum betreten →</button>
+    </form>
+  </main>
   <script src="unlock.js"></script>
 </body>
 </html>
