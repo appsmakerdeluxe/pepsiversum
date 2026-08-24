@@ -286,7 +286,7 @@ function renderApp() {
   // 10. Quiz Logic
   let currentQ = 0;
   let score = 0;
-  const questions = appData.quiz.slice(0, 5); // 5 questions for brevity
+  const questions = appData.quiz; // 20 questions
   const renderQuiz = () => {
     if(currentQ >= questions.length) {
       $('#quiz-container').innerHTML = `
@@ -304,26 +304,30 @@ function renderApp() {
     }
     
     const q = questions[currentQ];
+    // Shuffle options
+    const options = q.options.map((text, idx) => ({ text, isCorrect: idx === q.answer }));
+    options.sort(() => Math.random() - 0.5);
+    
     $('#quiz-container').innerHTML = `
       <div class="quiz-card reveal">
         <span class="step">Frage ${currentQ + 1} von ${questions.length}</span>
         <h3 class="question">${q.q}</h3>
         <div class="options">
-          ${q.options.map((opt, i) => `<button class="quiz-opt" data-idx="${i}">${opt}</button>`).join('')}
+          ${options.map((opt, i) => `<button class="quiz-opt" data-correct="${opt.isCorrect}">${opt.text}</button>`).join('')}
         </div>
       </div>
     `;
     
     $all('.quiz-opt').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        const chosen = parseInt(e.target.dataset.idx);
-        if(chosen === q.answer) {
+        const isCorrect = e.target.dataset.correct === 'true';
+        if(isCorrect) {
           e.target.classList.add('correct');
           score++;
           playPop();
         } else {
           e.target.classList.add('wrong');
-          $all('.quiz-opt')[q.answer].classList.add('correct');
+          $all('.quiz-opt').find(b => b.dataset.correct === 'true').classList.add('correct');
         }
         $all('.quiz-opt').forEach(b => b.disabled = true);
         
@@ -551,6 +555,19 @@ h2.title em { color: var(--rose); font-style: italic; }
 @keyframes floatHeart { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-100px) scale(2); opacity: 0; } }
 .confetti { position: fixed; width: 10px; height: 10px; pointer-events: none; z-index: 1000; }
 
+/* Thematic Backgrounds */
+.theme-latenight { background: radial-gradient(circle at top right, rgba(29,53,87,0.3), transparent 70%); }
+.theme-spotify { background: linear-gradient(180deg, transparent, rgba(157,78,221,0.1)); }
+.theme-kintsugi { background-image: radial-gradient(rgba(229,184,105,0.2) 1px, transparent 1px); background-size: 30px 30px; }
+.theme-cats { background: radial-gradient(circle at bottom left, rgba(255,77,109,0.15), transparent 50%); }
+.theme-icecream { background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(14,203,181,0.05) 10px, rgba(14,203,181,0.05) 20px); }
+.theme-blueprint { background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; }
+.theme-sos { background: radial-gradient(circle at center, rgba(14,203,181,0.1) 0%, transparent 70%); }
+.theme-promises { background: radial-gradient(ellipse at top, rgba(229,184,105,0.15), transparent 60%); }
+.theme-tree { background: linear-gradient(to bottom, transparent, rgba(62,39,35,0.2)); }
+.theme-timeline { background-image: linear-gradient(0deg, transparent 24%, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.03) 26%, transparent 27%, transparent 74%, rgba(255,255,255,0.03) 75%, rgba(255,255,255,0.03) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.03) 26%, transparent 27%, transparent 74%, rgba(255,255,255,0.03) 75%, rgba(255,255,255,0.03) 76%, transparent 77%, transparent); background-size: 50px 50px; }
+.theme-quiz { background: linear-gradient(180deg, transparent, rgba(255,77,109,0.15)); border-top: 1px solid rgba(255,77,109,0.3); }
+
 """
 
 full_html = """
@@ -578,7 +595,7 @@ full_html = """
     </header>
 
     <!-- 1. LATE NIGHT -->
-    <section class="section">
+    <section class="section theme-latenight">
       <span class="chapter-tag reveal">Kapitel 01</span>
       <h2 class="title reveal">Late Night<br><em>Whispers</em></h2>
       <p class="section-desc reveal">Zwischen 2 und 5 Uhr morgens. Wenn die Welt schlief, wurden wir wach, ehrlich und verrückt.</p>
@@ -586,7 +603,7 @@ full_html = """
     </section>
 
     <!-- 2. SPOTIFY -->
-    <section class="section">
+    <section class="section theme-spotify">
       <span class="chapter-tag reveal">Kapitel 02</span>
       <h2 class="title reveal">Midnight<br><em>FM</em></h2>
       <p class="section-desc reveal">Der Soundtrack unserer Chat-Historie. Jedes Lied mit seiner eigenen Erinnerung.</p>
@@ -594,7 +611,7 @@ full_html = """
     </section>
 
     <!-- 3. KINTSUGI -->
-    <section class="section">
+    <section class="section theme-kintsugi">
       <span class="chapter-tag reveal">Kapitel 03</span>
       <h2 class="title reveal">Aus Scherben<br><em>wird Gold</em></h2>
       <p class="section-desc reveal">In Japan repariert man Zerbrochenes mit Gold (Kintsugi). Wahre Liebe zeigt sich darin, wie man Fehler vergibt und stärker zusammenwächst.</p>
@@ -602,7 +619,7 @@ full_html = """
     </section>
 
     <!-- 4. CATS -->
-    <section class="section">
+    <section class="section theme-cats">
       <span class="chapter-tag reveal">Kapitel 04</span>
       <h2 class="title reveal">Suri & Pamuk<br><em>Palast</em></h2>
       <p class="section-desc reveal">Die wahren Herrscherinnen. Klicke auf die Buttons für Streicheleinheiten (Sound an!).</p>
@@ -629,7 +646,7 @@ full_html = """
     </section>
 
     <!-- 5. ICE CREAM & DATES -->
-    <section class="section">
+    <section class="section theme-icecream">
       <span class="chapter-tag reveal">Kapitel 05</span>
       <h2 class="title reveal">Eislabor &<br><em>Date Roulette</em></h2>
       <p class="section-desc reveal">Über 2.400 mal Eis im Chat. Weißt du nicht, was wir als nächstes machen sollen? Dreh das Rad!</p>
@@ -640,7 +657,7 @@ full_html = """
     </section>
 
     <!-- 6. BLUEPRINT -->
-    <section class="section">
+    <section class="section theme-blueprint">
       <span class="chapter-tag reveal">Kapitel 06</span>
       <h2 class="title reveal">Blueprint<br><em>150 Jahre</em></h2>
       <p class="section-desc reveal">Der Bauplan für unser gemeinsames Königreich.</p>
@@ -648,7 +665,7 @@ full_html = """
     </section>
 
     <!-- 7. SAFE HARBOR SOS -->
-    <section class="section">
+    <section class="section theme-sos">
       <span class="chapter-tag reveal">Kapitel 07</span>
       <h2 class="title reveal">Safe Harbor<br><em>SOS</em></h2>
       <p class="section-desc reveal">Klicke auf einen Button, wenn es dir mal nicht so gut geht.</p>
@@ -656,7 +673,7 @@ full_html = """
     </section>
 
     <!-- 8. PROMISES -->
-    <section class="section">
+    <section class="section theme-promises">
       <span class="chapter-tag reveal">Kapitel 08</span>
       <h2 class="title reveal">Schrein der<br><em>Versprechen</em></h2>
       <p class="section-desc reveal">Dinge, die für die Ewigkeit in Stein und Herz gemeißelt sind.</p>
@@ -664,7 +681,7 @@ full_html = """
     </section>
 
     <!-- 8.5. CARVED TREE -->
-    <section class="section tree-section" style="text-align: center; overflow: hidden; position: relative;">
+    <section class="section tree-section theme-tree" style="text-align: center; overflow: hidden; position: relative;">
       <span class="chapter-tag reveal">Kapitel 08.5</span>
       <h2 class="title reveal">In die Ewigkeit<br><em>geritzt</em></h2>
       <p class="section-desc reveal" style="margin: 0 auto 40px;">Ein Schwur, der niemals verblasst.</p>
@@ -685,7 +702,7 @@ full_html = """
     </section>
 
     <!-- 9. TIMELINE -->
-    <section class="section">
+    <section class="section theme-timeline">
       <span class="chapter-tag reveal">Kapitel 09</span>
       <h2 class="title reveal">Unsere<br><em>Zeitreise</em></h2>
       <p class="section-desc reveal">Von der ersten Nachricht 2024 bis zur Parkbank im Jahr 2074.</p>
@@ -693,7 +710,7 @@ full_html = """
     </section>
 
     <!-- 10. QUIZ -->
-    <section class="section" style="min-height: 80vh;">
+    <section class="section theme-quiz" style="min-height: 80vh;">
       <span class="chapter-tag reveal">Kapitel 10</span>
       <h2 class="title reveal">Memory<br><em>Side Quest</em></h2>
       <p class="section-desc reveal">Beweise, wie gut du das Pepsiversum kennst!</p>

@@ -384,66 +384,26 @@ timeline_events.extend(future_events)
 
 # 10. TRIVIA QUIZ
 quiz_questions = [
-    {
-        'q': "Wie oft wurde das Wort 'Eis' in unserem Chat erwähnt?",
-        'options': ["Ca. 50 Mal", "Über 2.400 Mal!", "Exakt 120 Mal", "Gar nicht"],
-        'answer': 1,
-        'explanation': "Über 2.460 Mal! Eis ist Sellys absolute Superkraft und unser Dauer-Thema."
-    },
-    {
-        'q': "Wo verschanzte sich Selly an Silvester 2024 mit den Katzen?",
-        'options': ["Im Kleiderschrank", "Im Badezimmer", "Auf dem Dachboden", "Unter dem Bett"],
-        'answer': 1,
-        'explanation': "Im Badezimmer, um Suri & Pamuk vor der Knallerei zu beschützen!"
-    },
-    {
-        'q': "Was passiert laut Denis, wenn wir zusammenziehen?",
-        'options': ["Wir haben nichts zu essen", "Wir haben alles doppelt, weil wir immer dasselbe kaufen!", "Wir streiten um die Fernbedienung", "Die Katzen übernehmen die Macht"],
-        'answer': 1,
-        'explanation': "Denis am 29.12.25: 'Wenn wir zusammenziehen haben wir alles doppelt hahahaha!'"
-    },
-    {
-        'q': "Wie alt wird Denis laut Sellys legendärem Heirats-Schwur?",
-        'options': ["80 Jahre", "100 Jahre", "150 Jahre alt!", "Unsterblich"],
-        'answer': 2,
-        'explanation': "Selly am 11.08.25: 'Heirate mich und du wirst 150 Jahre alt werden ich sorge für dich wie für mein Baby XD'"
-    },
-    {
-        'q': "Wohin verbannte Selly ihren Weihnachtsbaum nach den Feiertagen?",
-        'options': ["In den Müll", "In den Garten für die Katzen zum Klettern", "In den Keller", "Zum Nachbarn"],
-        'answer': 1,
-        'explanation': "In den Garten, damit Suri & Pamuk darauf rumturnen konnten!"
-    },
-    {
-        'q': "Was ist laut Denis sicher am 07.08.2025?",
-        'options': ["Dass es regnet", "Dass er Sellys Namen in sein Herz geritzt hat", "Dass er Urlaub braucht", "Dass Suri hungrig ist"],
-        'answer': 1,
-        'explanation': "Denis: 'Eines ist sicher: Ich habe deinen Namen in mein Herz geritzt und da bleibt er bis zum Tod.'"
-    },
-    {
-        'q': "Welche Serie wurde im Chat als 'eine der besten aller Zeiten' gefeiert?",
-        'options': ["Breaking Bad", "Game of Thrones", "Squid Game 2", "The Walking Dead"],
-        'answer': 1,
-        'explanation': "Game of Thrones! (Während Squid Game 2 eher enttäuscht hat xD)"
-    },
-    {
-        'q': "Wie viele Late-Night-Nachrichten haben wir zwischen 2:00 und 5:00 Uhr geschrieben?",
-        'options': ["Ca. 200", "Rund 1.000", "Über 5.500 Nachrichten!", "Genau 50"],
-        'answer': 2,
-        'explanation': "Unglaubliche 5.556 Nachrichten zu nachtschlafender Zeit!"
-    },
-    {
-        'q': "Was ist Sellys bevorzugte Love Language beim Handy?",
-        'options': ["Lange Aufsätze schreiben", "Telefonieren & Voice Notes", "Nur Emojis schicken", "Rauchzeichen"],
-        'answer': 1,
-        'explanation': "Selly: 'Ich hasse Schreiben und liebe Telefonieren!' (während Denis Romane textet)."
-    },
-    {
-        'q': "Wie heißen unsere beiden geliebten Chaoten auf vier Pfoten?",
-        'options': ["Luna & Milo", "Suri & Pamuk", "Bella & Simba", "Pepsi & Cola"],
-        'answer': 1,
-        'explanation': "Suri & Pamuk! Der Namensgeber für unser geheimes Passwort 'suripamuk2026'."
-    }
+    {'q': 'Wie lange wollen wir mindestens zusammenbleiben?', 'options': ['50 Jahre', '100 Jahre', '150 Jahre', 'Bis zur Unendlichkeit'], 'answer': 2},
+    {'q': 'Wer von uns beiden ist der absolute Katzen-Boss im Haus?', 'options': ['Denis', 'Selly', 'Suri', 'Pamuk'], 'answer': 2},
+    {'q': 'Welches Jahr markiert den offiziellen Start unserer Geschichte?', 'options': ['2022', '2023', '2024', '2025'], 'answer': 2},
+    {'q': 'Was essen wir am liebsten (über 2.400 Erwähnungen im Chat)?', 'options': ['Pizza', 'Döner', 'Eis', 'Sushi'], 'answer': 2},
+    {'q': 'Wo werden wir im Jahr 2074 sitzen?', 'options': ['Im Schaukelstuhl', 'Auf einer Parkbank', 'Am Strand', 'Im Raumschiff'], 'answer': 1},
+    {'q': 'Wie wird Pamuk oft liebevoll genannt?', 'options': ['Der Kletterer/Chaot', 'Der Schläfer', 'Der Fresser', 'Der Schmuser'], 'answer': 0},
+    {'q': 'Zu welcher Uhrzeit entstanden unsere tiefsten Gespräche?', 'options': ['20-22 Uhr', '0-2 Uhr', '2-5 Uhr', 'Am Vormittag'], 'answer': 2},
+    {'q': 'Welches Land/Konzept verbindet aus Scherben wieder Gold (Kintsugi)?', 'options': ['China', 'Japan', 'Südkorea', 'Thailand'], 'answer': 1},
+    {'q': 'Was ist dein süßer Spitzname, der auch auf den Startbildschirm dieser Seite passt?', 'options': ['Schnecke', 'Bärchen', 'Pepsi', 'Mausi'], 'answer': 2},
+    {'q': 'Wie heißt mein (Denis) Spitzname oft von dir?', 'options': ['Pepe', 'Deni', 'Bär', 'Schatz'], 'answer': 0},
+    {'q': 'Welche Farbe hat das SOS "Vermisse dich" Modal?', 'options': ['Blau', 'Grün', 'Lila', 'Warmes Rot/Pink'], 'answer': 3},
+    {'q': 'Wer schnarcht/blockiert am meisten Platz im Bett?', 'options': ['Suri', 'Pamuk', 'Denis', 'Selly'], 'answer': 0},
+    {'q': 'Welche Initialen sind in den Baum der Ewigkeit geritzt?', 'options': ['D & S', 'S N', 'S & P', 'P & D'], 'answer': 1},
+    {'q': 'Was bringt das "Date Roulette" im Eislabor?', 'options': ['Kostenloses Eis', 'Zufällige Date-Ideen', 'Lustige Sprüche', 'Ein Spielzeug'], 'answer': 1},
+    {'q': 'In welchem Jahr planen wir unsere Hochzeit (laut Blueprint)?', 'options': ['2026', '2028', '2030', '2035'], 'answer': 2},
+    {'q': 'Was machen wir im Blueprint-Jahr 2040?', 'options': ['Weltreise', 'Haus am See', 'Marsmission', 'Pension'], 'answer': 1},
+    {'q': 'Wie reagiere ich im Chat am häufigsten auf deine süßen Bilder?', 'options': ['Hahaha', 'Wunderschön', 'Okay', 'xD'], 'answer': 1},
+    {'q': 'Wer ist der verrückte Baum-Kletterer unter den Katzen?', 'options': ['Suri', 'Selly', 'Denis', 'Pamuk'], 'answer': 3},
+    {'q': 'Welches Symbol nutzen wir als "Schrein der Versprechen"?', 'options': ['Schloss', 'Ring', 'Siegel', 'Herz'], 'answer': 2},
+    {'q': 'Was bedeutet es, wenn wir streiten?', 'options': ['Es ist vorbei', 'Wir sind müde', 'Wir wachsen durch Kintsugi stärker zusammen', 'Wir essen danach Eis'], 'answer': 2}
 ]
 
 app_data = {
