@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="de" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <title>Pepsiversum</title>
+  <link rel="stylesheet" href="unlock.css" />
+</head>
+<body>
+  <div id="unlock-container">
+    <div class="stars-bg"></div>
+    <div class="glass-card">
+      <div class="card-icon">✨</div>
+      <h1 class="card-title">Pepsiversum</h1>
+      <p class="card-desc">Ein geschützter Raum voller Erinnerungen, Musik & unserer gemeinsamen Geschichte.</p>
+      
+      <form id="unlock-form">
+        <div class="input-group">
+          <input 
+            type="password" 
+            id="passphrase" 
+            placeholder="Zugangscode eingeben..." 
+            autocomplete="current-password" 
+            required 
+            autofocus
+          />
+          <button type="submit" id="btn-unlock" class="submit-btn">Öffnen ➔</button>
+        </div>
+      </form>
+
+      <div id="error-msg" class="error-text"></div>
+      <div class="card-footer">
+        <span>🔒 AES-256 Verschlüsselt • Nur für Selly</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-root" style="display:none;"></div>
+
+  <script src="unlock.js"></script>
+</body>
+</html>
