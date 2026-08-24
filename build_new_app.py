@@ -614,6 +614,7 @@ h2.title em { color: var(--rose); font-style: italic; }
 .rain-container { position: fixed; inset: 0; pointer-events: none; z-index: 99; overflow: hidden; }
 .raindrop { position: absolute; top: -50px; width: 2px; height: 30px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.6)); animation: fall linear forwards; }
 @keyframes fall { to { transform: translateY(110vh); opacity: 0; } }
+@keyframes spin { 0% { transform: rotate(0deg) translateY(0); } 100% { transform: rotate(360deg) translateY(0); } }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes floatHeart { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-100vh) scale(2); opacity: 0; } }
 
