@@ -120,7 +120,7 @@ function createFloatingHearts() {
   document.body.appendChild(hc);
   for(let i=0; i<20; i++) {
     const h = document.createElement('div');
-    h.innerHTML = '💖';
+    h.innerHTML = '❤️';
     h.style.position = 'absolute';
     h.style.left = Math.random() * 100 + 'vw';
     h.style.bottom = '-20px';
@@ -731,6 +731,7 @@ full_html = """
       <h3 id="modal-title">Titel</h3>
       <p id="modal-advice">Advice</p>
       <blockquote id="modal-quote">Quote</blockquote>
+      <p id="modal-action" style="font-weight:bold; color:var(--mint); margin-bottom: 20px;"></p>
       <div class="bonus" id="modal-bonus">Bonus</div>
       <br>
       <button id="modal-close" class="action-btn" style="padding: 10px 25px; font-size: 1rem;">Danke ❤️</button>
