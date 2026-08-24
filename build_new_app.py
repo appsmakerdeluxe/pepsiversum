@@ -47,29 +47,48 @@ function playPurr() {
     const bufferSize = audioCtx.sampleRate * 2;
     const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
     const data = buffer.getChannelData(0);
-    for(let i=0; i<bufferSize; i++) { data[i] = (Math.random() * 2 - 1) * 0.2; }
+    for (let i = 0; i < bufferSize; i++) { data[i] = (Math.random() * 2 - 1) * 0.2; }
     const noise = audioCtx.createBufferSource();
     noise.buffer = buffer;
-    const filter = audioCtx.createBiquadFilter();
-    filter.type = 'lowpass'; filter.frequency.value = 150;
+    const biquad = audioCtx.createBiquadFilter();
+    biquad.type = 'lowpass'; biquad.frequency.value = 150;
+    
     const gain = audioCtx.createGain();
-    noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
     gain.gain.setValueAtTime(0, audioCtx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.5);
-    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 2);
-    noise.start();
+    const lfo = audioCtx.createOscillator();
+    lfo.type = 'sine'; lfo.frequency.value = 25;
+    const lfoGain = audioCtx.createGain(); lfoGain.gain.value = 0.5;
+    lfo.connect(lfoGain); lfoGain.connect(gain.gain);
+    noise.connect(biquad); biquad.connect(gain); gain.connect(audioCtx.destination);
+    gain.gain.linearRampToValueAtTime(0.6, audioCtx.currentTime + 0.2);
+    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.8);
+    noise.start(); lfo.start(); noise.stop(audioCtx.currentTime + 2); lfo.stop(audioCtx.currentTime + 2);
   });
 }
 
-function playMeow() {
+function playSweetMeow() {
   safePlay(() => {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.type = 'triangle'; osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.3);
+    osc.type = 'sine'; osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.3);
     gain.gain.setValueAtTime(0, audioCtx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.1);
+    gain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+  });
+}
+
+function playSassyMeow() {
+  safePlay(() => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.type = 'sawtooth'; osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(250, audioCtx.currentTime + 0.4);
+    gain.gain.setValueAtTime(0, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.1);
     gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
     osc.start(); osc.stop(audioCtx.currentTime + 0.5);
   });
@@ -675,7 +694,7 @@ full_html = """
           <div class="cat-info">
             <h3>Suri</h3>
             <p style="margin-bottom: 15px; color: var(--text-muted);">Die Bett-Blockiererin & Chefin</p>
-            <button class="cat-sound" data-type="meow">Süßes Miau</button>
+            <button class="cat-sound" data-type="sweetMeow">Süßes Miau</button>
             <button class="cat-sound" data-type="purr">Schnurren</button>
           </div>
         </div>
@@ -684,7 +703,7 @@ full_html = """
           <div class="cat-info">
             <h3>Pamuk</h3>
             <p style="margin-bottom: 15px; color: var(--text-muted);">Der Baum-Kletterer & Chaot</p>
-            <button class="cat-sound" data-type="meow">Freches Miau</button>
+            <button class="cat-sound" data-type="sassyMeow">Freches Miau</button>
             <button class="cat-sound" data-type="purr">Schnurren</button>
           </div>
         </div>
