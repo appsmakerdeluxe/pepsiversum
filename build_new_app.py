@@ -692,7 +692,16 @@ full_html = """
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet" />
-  <style>""" + app_css + """</style>
+  <style>""" + app_css + """
+/* SPIELZIMMER CSS */
+.mg-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 40px; }
+.mg-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,215,0,0.3); border-radius: 15px; padding: 20px; text-align: center; overflow: hidden; position: relative; min-height: 250px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+.mg-title { font-family: var(--font-title); color: var(--gold); margin-bottom: 15px; font-size: 1.3rem; }
+.orb { position: absolute; font-size: 2rem; cursor: pointer; transition: transform 0.3s, opacity 0.3s; animation: float 3s ease-in-out infinite alternate; }
+.orb:hover { transform: scale(1.2); }
+@keyframes shakeMg { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
+
+</style>
 </head>
 <body>
   <div class="particles"></div>
@@ -840,6 +849,105 @@ full_html = """
     </section>
 
   
+    
+    <!-- KAPITEL 10.5 (SPIELZIMMER) -->
+    <section class="section" id="spielzimmer">
+      <h2 class="title reveal">Das Pepsiversum Spielzimmer</h2>
+      <p class="reveal">Weil Erinnerungen nicht nur zum Lesen, sondern zum Erleben da sind. ❤️</p>
+      
+      <div class="mg-grid reveal">
+        
+        <!-- 1. Schnecke -->
+        <div class="mg-card" id="card-schnecke">
+          <div class="mg-title">Der Schnecken-Zähler</div>
+          <div id="schnecke-emoji" style="font-size: 4rem; cursor: pointer; transition: transform 0.1s;">🐌</div>
+          <div id="schnecke-count" style="font-size: 2rem; font-weight: bold; color: var(--brand); margin-top: 10px;">0</div>
+          <p style="font-size: 0.8rem; margin-top:5px;">(Tippen!)</p>
+        </div>
+
+        <!-- 2. Gurken-Joghurt -->
+        <div class="mg-card" id="card-gurke">
+          <div class="mg-title">Cheat-Meal Maschine</div>
+          <div id="mixer-container" style="font-size: 3rem; margin-bottom: 10px;">🌪️</div>
+          <div id="mixer-items">
+            <button id="btn-gurke" class="action-btn" style="font-size:1.5rem; padding: 5px 10px; margin: 5px;">🥒</button>
+            <button id="btn-joghurt" class="action-btn" style="font-size:1.5rem; padding: 5px 10px; margin: 5px;">🥣</button>
+          </div>
+          <button id="btn-mix" class="action-btn" style="margin-top:15px; display:none;">MIXEN!</button>
+          <div id="mixer-cert" style="display:none; color: var(--mint); font-weight: bold; margin-top: 10px; line-height:1.2;">🏆<br>Zertifikat:<br>Das traurigste Cheat-Meal der Welt</div>
+        </div>
+
+        <!-- 3. Day/Night Simulator -->
+        <div class="mg-card" id="card-daynight" style="transition: background 1s;">
+          <div class="mg-title" id="dn-title" style="transition: color 1s;">Gute Nacht, Herz</div>
+          <div style="font-size: 3rem; transition: transform 0.5s;" id="dn-emoji">🌙</div>
+          <input type="range" id="dn-slider" min="0" max="100" value="0" style="width: 80%; margin-top: 20px;">
+          <div id="dn-text" style="margin-top: 15px; font-style: italic; transition: color 1s;">"Ich liebe dich, schlaf gut..."</div>
+        </div>
+
+        <!-- 4. Disney Roulette -->
+        <div class="mg-card" id="card-disney">
+          <div class="mg-title">Ticket-Roulette</div>
+          <div id="ticket-slot" style="font-size: 1.2rem; font-weight:bold; background: #222; border-radius:10px; padding: 15px; min-width: 200px; margin: 10px auto; color: white;">🎰 Zieh den Hebel</div>
+          <button id="btn-ticket" class="action-btn">Ticket ziehen</button>
+        </div>
+
+        <!-- 5. Pamuks Pfote -->
+        <div class="mg-card" id="card-pamuk">
+          <div class="mg-title">Nicht drücken!</div>
+          <div id="pamuk-tower" style="font-size: 2.5rem; display:flex; flex-direction:column; align-items:center; gap:5px; transition: transform 0.5s ease-in;">
+            <div>📦</div><div>🧸</div><div>🪴</div>
+          </div>
+          <button id="btn-pamuk" class="action-btn" style="margin-top:15px; background: #444;">Drücken</button>
+          <div id="pamuk-paw" style="position: absolute; right: -100px; top: 30%; font-size: 5rem; transition: right 0.3s; z-index: 10;">🐾</div>
+        </div>
+
+        <!-- 6. Traum-Fänger -->
+        <div class="mg-card" id="card-dream">
+          <div class="mg-title">Seelen-Verbindung</div>
+          <div style="position:relative; width: 100%; height: 100px; background: rgba(0,0,0,0.3); border-radius:10px;">
+             <div class="orb" id="orb1" style="left: 10%; top: 20%;">✨</div>
+             <div class="orb" id="orb2" style="left: 45%; top: 50%;">✨</div>
+             <div class="orb" id="orb3" style="left: 75%; top: 10%;">✨</div>
+          </div>
+          <div id="dream-text" style="opacity: 0; font-style:italic; transition: opacity 1s; color: var(--gold); font-size: 0.9rem; margin-top:10px;">"Es hat uns etwas zusammen gebracht für einen Zweck..."</div>
+        </div>
+
+        <!-- 7. Massagekissen -->
+        <div class="mg-card" id="card-massage">
+          <div class="mg-title">Entspannung Pur</div>
+          <div id="massage-device" style="font-size: 4rem; margin-bottom:10px; transition: transform 0.1s;">💆‍♀️</div>
+          <button id="btn-massage" class="action-btn">Einschalten</button>
+        </div>
+
+        <!-- 8. Deckenburg -->
+        <div class="mg-card" id="card-fort">
+          <div class="mg-title">12h Film-Marathon</div>
+          <div id="fort-items" style="font-size: 3rem; cursor:pointer;">🛏️ 🛏️ 🛏️</div>
+          <div id="fort-result" style="display:none; font-size: 4rem;">🏰</div>
+          <div id="fort-popcorn" style="display:none; font-size: 2rem;">🍿🍿🍿</div>
+          <p style="font-size: 0.8rem; margin-top:10px;" id="fort-hint">(Tippe auf die Kissen)</p>
+        </div>
+
+        <!-- 9. Wut-Waschanlage -->
+        <div class="mg-card" id="card-wut" style="background: rgba(255,0,0,0.2);">
+          <div class="mg-title">Wut-Waschanlage</div>
+          <button id="btn-wut" class="action-btn" style="background: red; border: 2px solid darkred;">Ich bin sauer!</button>
+          <div id="wut-water" style="position:absolute; top:0; left:0; width:100%; height:0%; background: rgba(0, 150, 255, 0.9); transition: height 1s; display:flex; justify-content:center; align-items:center; overflow:hidden;">
+             <span style="font-size:2rem; opacity:0; transition: opacity 1s; color:white; font-weight:bold; padding:20px;" id="wut-peace">🏳️<br>Frieden!<br>Wir ärgern die Welt einfach zusammen.</span>
+          </div>
+        </div>
+
+        <!-- 10. Telepathie -->
+        <div class="mg-card" id="card-tele">
+          <div class="mg-title">Telepathie-Scanner</div>
+          <div id="scanner" style="font-size: 4rem; opacity:0.7; cursor:pointer; transition: transform 0.1s; user-select:none;">👆</div>
+          <p id="scanner-text" style="font-size:0.8rem; margin-top:10px;">Halte gedrückt und denke an uns...</p>
+        </div>
+
+      </div>
+    </section>
+
     <!-- KAPITEL 11 -->
     <section class="section" id="chapter-11">
       <h2 class="title reveal">Kapitel 11: Ein Kanal zu unseren Herzen</h2>
