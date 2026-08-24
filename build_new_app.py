@@ -1423,7 +1423,7 @@ full_html = """
           <div style="background: rgba(74, 28, 64, 0.35); border-left: 3px solid var(--rose); padding: 18px; border-radius: 0 12px 12px 0; margin-bottom: 25px; text-align: left;">
             <div style="font-weight: bold; color: #ff8fa3; margin-bottom: 6px; font-size: 1rem;">🌿 Nachmittags – Sellys Eingebung:</div>
             <p style="font-size: 0.95rem; line-height: 1.7; color: #e0e0e0;">
-              Ohne von Denis' Gedanken zu wissen, lag Selly nach dem Abschminken auf der Couch. Plötzlich hatte sie aus dem Nichts eine unwiderstehliche Eingebung, stand schnurstracks auf und fuhr zu einer abgelegenen Waldkapelle. Dort entzündete sie eine Kerze und schrieb diese unendlich berührenden Zeilen in das Gästebuch:
+              Ohne von Denis' Gedanken zu wissen, lag Selly nach dem Abschminken auf der Couch. Plötzlich hatte sie aus dem Nichts eine unwiderstehliche Eingebung, stand schnurstracks auf und fuhr zu einer abgelegenen Waldkapelle. Dort schrieb sie diese unendlich berührenden Zeilen in das Gästebuch:
             </p>
           </div>
 
