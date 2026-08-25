@@ -6,8 +6,12 @@ Diese Datei dient als vollständige Dokumentation, Architekturübersicht und Ent
 
 ## 1. 🚨 Kritische Sicherheits- & Datenschutz-Vorgaben (Strikte Priorität)
 
+- **100% geschützt vor Öffentlichkeit und Suchmaschinen:**
+  - Die gesamte Webanwendung und sämtliche vertraulichen Inhalte sind **ausschließlich nach Eingabe der geheimen Passphrase** zugänglich.
+  - Ohne den korrekten Schlüssel sieht die Außenwelt und jeder Web-Crawler lediglich die leere Gatekeeper-Startseite (`index.html`).
+  - Im `<head>` sind stets `<meta name="robots" content="noindex,nofollow,noarchive" />` und `<meta name="referrer" content="no-referrer" />` verankert, um jegliche Suchmaschinen-Indexierung zuverlässig zu unterbinden.
 - **Keine README.md oder öffentlichen Klartext-Dokumente:**
-  - Im Root-Verzeichnis darf **niemals** eine `README.md` angelegt werden. Dies verhindert, dass das Repository und persönliche Inhalte von Suchmaschinen indexiert werden.
+  - Im Root-Verzeichnis darf **niemals** eine `README.md` angelegt werden. Dies verhindert, dass das Repository und persönliche Inhalte auf GitHub gerendert oder von Suchmaschinen erfasst werden.
 - **Keine Klartext-Chats, Passwörter oder persönliche Daten im Git-Remote:**
   - Rohe Chat-Exportdateien (`WhatsApp*.txt`, `*.log`, `data.json`) sowie unverschlüsselte Bildoriginale gehören ausnahmslos in die `.gitignore`.
   - Passwörter und kryptografische Schlüssel dürfen **niemals** im Klartext in committete Dateien, Tickets oder Git-Logs geschrieben werden.
@@ -18,6 +22,10 @@ Diese Datei dient als vollständige Dokumentation, Architekturübersicht und Ent
 - **Lokale Build-Tools vs. Remote Runtime:**
   - Alle Generierungs-, Parsing- und Build-Skripte (`*.py`) verbleiben ausschließlich lokal und sind in `.gitignore` ignoriert.
   - Im Remote-Repository befinden sich ausschließlich die für die Client-Ausführung benötigten statischen Dateien: `index.html`, `unlock.css`, `unlock.js`, `pepsi.enc`, `.nojekyll`, `.gitignore` und `AGENTS.md`.
+- **Entkopplung neuer Projekte (Design- & Inhalts-Autonomie):**
+  - Diese Datei dient als technische Architektur-Blaupause (Kryptografie, Gatekeeper-Logik, Zero-Backend-Modell).
+  - **Neue Projekte**, die auf dieser Architektur aufbauen, erhalten ein **völlig eigenständiges Design, Theme, Look & Feel sowie individuelle Inhalte**, die komplett unabhängig von Pepsiversum gestaltet werden.
+
 
 ---
 
