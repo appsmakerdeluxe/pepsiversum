@@ -1,5 +1,20 @@
-WhatsApp-Chat mit Pepsi.txt
+# Private & Sensitive Data
+*.txt
+WhatsApp*.txt
 data.json
 *.log
+*.enc.bak
+*.tmp
+
+# Local Python & Build Tools (kept strictly local, never pushed)
+*.py
 __pycache__/
+*.pyc
+.pytest_cache/
+
+# IDE & OS files
 .vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
