@@ -6,6 +6,11 @@ data.json
 *.enc.bak
 *.tmp
 
+# Documentation & Guidelines (kept local only)
+AGENTS.md
+agents.md
+*.md
+
 # Local Python & Build Tools (kept strictly local, never pushed)
 *.py
 __pycache__/
@@ -17,4 +22,5 @@ __pycache__/
 .idea/
 .DS_Store
 Thumbs.db
+
 
